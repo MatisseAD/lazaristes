@@ -34,5 +34,12 @@ def sommets(list):
                 print(list[i])
 
 
-print("Dans l'altimètre, l'altitude maximal est " + str(altmax(alt)) + "m. Le dénivelé maximum est de  " + str(deniv_max(alt)) + " dont ce point a été atteint à partir de " + str(heure_deniv_max(alt)) + "h.\n Le dénivelé positif total est de " + str(deniv_positif_total(alt)))
-sommets(alt)
+
+def altitudecaca(list):
+    altitude=0
+    for k in range(len(list)):
+        if list[k] > altitude:
+            altitude=list[k]
+    return altitude
+
+print(str(altitudecaca(alt)))
