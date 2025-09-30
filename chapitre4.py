@@ -98,6 +98,22 @@ def entier_manquant(t):
 
 
 
+#
+# Correction
+#
+
+def contient(x,list):
+    for y in list:
+        if x == y:
+            retur True
+    return False
+
+def entier_manquant2():
+    val=0
+    while content(val,t):
+        val=val+1
+    return val
+
 
 
 
