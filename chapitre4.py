@@ -102,6 +102,8 @@ def entier_manquant(t):
 # Correction
 #
 
+# Exercice 2
+
 def contient(x,list):
     for y in list:
         if x == y:
@@ -113,7 +115,29 @@ def entier_manquant2():
     while content(val,t):
         val=val+1
     return val
+    
+def est_croissant(t,deb,fin):
+    for k in range(deb,fin-1):
+        if t[k] > t[k+1]:
+            return False
+    return True
+            
 
+    
+def est_decroissant(t,deb,fin):
+    for k in range(deb,fin-1):
+        if t[k] < t[k+1]:
+            return False
+    return True
+
+def bicolore2(t):
+    n=len(t)
+    for k in range(n+1):
+        if est_croissant(t,0,k) and est_decroissant(t,k,n):
+            return True
+        if est_decroissante(t,0,k) and est_croissant(t,k,n):
+            return True
+    return False
 
 
 
