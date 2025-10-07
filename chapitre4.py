@@ -170,13 +170,12 @@ def swap(t,i,j):
     t[i], t[j] = t[j], t[i]
 
 def partition(t,p):
-    i,j = 0,0
+    i = 0
 
-    for k in range(len(t)):
-        if t[k] < p:
-            swap(t,k,i)
+    for j in range(len(t)):
+        if t[j] < p:
+            swap(t,j,i)
             i=i+1
-        j=j+1
     return t
 
 def partition_hollandais(t,p):
