@@ -2,45 +2,576 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lazaristes – Ressources Python Prépa</title>
 <style>
-body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 1rem; line-height: 1.6; background-color: #f9f9f9; color: #333; }
-h1 { color: #222; }
-nav ul { list-style-type: none; padding: 0; }
-nav li { margin: 0.5rem 0; }
-a { text-decoration: none; color: #007acc; }
-a:hover { text-decoration: underline; }
-section { margin-bottom: 2rem; }
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Main content area */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* Section styles */
+section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 0.5rem;
+}
+
+/* Repository updates section */
+#repo-updates {
+    grid-column: 1 / -1;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 150px;
+    margin: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-card .label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.commits-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+.commit-item {
+    background: white;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    transition: transform 0.2s;
+}
+
+.commit-item:hover {
+    transform: translateX(5px);
+}
+
+.commit-hash {
+    font-family: monospace;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.commit-message {
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.commit-meta {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+/* Python executor section */
+#python-executor {
+    grid-column: 1 / -1;
+}
+
+.code-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.code-input, .code-output {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.code-header {
+    background: #667eea;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+}
+
+textarea#codeInput {
+    width: 100%;
+    height: 300px;
+    padding: 1rem;
+    border: none;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    background: #282c34;
+    color: #abb2bf;
+}
+
+#output {
+    padding: 1rem;
+    min-height: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    background: #1e1e1e;
+    color: #d4d4d4;
+}
+
+.error {
+    color: #f44336;
+}
+
+.success {
+    color: #4caf50;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 1rem 0;
+}
+
+button:hover {
+    background: #5568d3;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Resources section */
+.resources {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.resource-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.resource-card h3 {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.resource-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.resource-card li {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.resource-card li:before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+}
+
+.resource-card a {
+    text-decoration: none;
+    color: #007acc;
+    transition: color 0.2s;
+}
+
+.resource-card a:hover {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+/* Loading and status indicators */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status-message {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.status-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .code-container {
+        grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .stats {
+        flex-direction: column;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 </style>
 </head>
 <body>
-<h1>Ressources Python pour la prépa</h1>
-<p>Bienvenue sur le site du dépôt <strong>lazaristes</strong>. Ce site vous permet de naviguer facilement dans les différents fichiers Python, notebooks et TP proposés.</p>
-<section>
-<h2>Notebooks explicatifs</h2>
-<ul>
-<li><a href="../chapitre2_explicatif.ipynb">chapitre2_explicatif.ipynb</a> – Explications et exemples pour le chapitre 2.</li>
-<li><a href="../chapitre3_explicatif.ipynb">chapitre3_explicatif.ipynb</a> – Explications et exemples pour le chapitre 3.</li>
-<li><a href="../chapitre4_explicatif.ipynb">chapitre4_explicatif.ipynb</a> – Explications et exemples pour le chapitre 4.</li>
-<li><a href="../TP02.ipynb">TP02.ipynb</a> – Notebook du TP02.</li>
-</ul>
-</section>
-<section>
-<h2>Scripts Python</h2>
-<ul>
-<li><a href="../chapitre2.py">chapitre2.py</a> – Fonctions de base (triangles, pyramides, sommes, palindromes, etc.).</li>
-<li><a href="../chapitre3.py">chapitre3.py</a> – Fonctions récursives et manipulations de listes.</li>
-<li><a href="../chapitre4.py">chapitre4.py</a> – Algorithmes de listes (bicolore, entier manquant).</li>
-<li><a href="../TP02.py">TP02.py</a> – Script du TP02.</li>
-</ul>
-</section>
-<section>
-<h2>Autres fichiers</h2>
-<ul>
-<li><a href="../.gitignore">.gitignore</a></li>
-<li><a href="../README.md">README</a></li>
-</ul>
-</section>
-<p>Les notebooks peuvent être visualisés directement sur GitHub ou téléchargés pour exécution locale avec Jupyter. Pour plus d’informations, consultez la section « Notebooks explicatifs » ci-dessus.</p>
+<div class="container">
+    <header>
+        <h1>🐍 Ressources Python pour la prépa</h1>
+        <p>Bienvenue sur le site du dépôt <strong>lazaristes</strong> – Interface interactive avec exécution Python en temps réel</p>
+    </header>
+
+    <div class="main-content">
+        <!-- Repository Updates Section -->
+        <section id="repo-updates">
+            <h2>📊 État du Dépôt</h2>
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <div class="number" id="total-commits">--</div>
+                    <div class="label">Total Commits</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="total-files">--</div>
+                    <div class="label">Total Fichiers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="python-files">--</div>
+                    <div class="label">Fichiers Python</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="notebook-files">--</div>
+                    <div class="label">Notebooks</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 2rem;">📝 Derniers Commits</h3>
+            <div class="commits-list" id="commits-list">
+                <p style="text-align: center; color: #666;">Chargement des commits...</p>
+            </div>
+        </section>
+
+        <!-- Python Code Executor Section -->
+        <section id="python-executor">
+            <h2>💻 Exécuteur Python Interactif</h2>
+            <p style="margin-bottom: 1rem;">Écrivez et exécutez du code Python directement dans votre navigateur (environnement sécurisé et sandboxé)</p>
+            
+            <div class="code-container">
+                <div class="code-input">
+                    <div class="code-header">Code Python</div>
+                    <textarea id="codeInput" placeholder="# Écrivez votre code Python ici..."># Écrivez votre code Python ici...
+print("Bonjour depuis lazaristes!")
+
+# Exemple : calculer la somme des nombres pairs
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+sum_even = sum(n for n in numbers if n % 2 == 0)
+print(f"Somme des nombres pairs : {sum_even}")</textarea>
+                </div>
+                
+                <div class="code-output">
+                    <div class="code-header">Sortie</div>
+                    <div id="output">Cliquez sur "Exécuter" pour voir la sortie...</div>
+                </div>
+            </div>
+            
+            <button id="executeBtn" onclick="executeCode()">▶️ Exécuter le Code</button>
+            <button onclick="clearCode()">🗑️ Effacer</button>
+            <div id="status"></div>
+        </section>
+
+        <!-- Resources Section -->
+        <div class="resources">
+            <section class="resource-card">
+                <h3>📓 Notebooks explicatifs</h3>
+                <ul>
+                    <li><a href="../chapitre2_explicatif.ipynb">chapitre2_explicatif.ipynb</a> – Chapitre 2</li>
+                    <li><a href="../chapitre3_explicatif.ipynb">chapitre3_explicatif.ipynb</a> – Chapitre 3</li>
+                    <li><a href="../chapitre4_explicatif.ipynb">chapitre4_explicatif.ipynb</a> – Chapitre 4</li>
+                    <li><a href="../TP02.ipynb">TP02.ipynb</a> – TP02</li>
+                </ul>
+            </section>
+
+            <section class="resource-card">
+                <h3>🐍 Scripts Python</h3>
+                <ul>
+                    <li><a href="../chapitre2.py">chapitre2.py</a> – Fonctions de base</li>
+                    <li><a href="../chapitre3.py">chapitre3.py</a> – Fonctions récursives</li>
+                    <li><a href="../chapitre4.py">chapitre4.py</a> – Algorithmes de listes</li>
+                    <li><a href="../TP02.py">TP02.py</a> – Script TP02</li>
+                    <li><a href="../TP03.py">TP03.py</a> – Script TP03</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+// API base URL - adjust this based on your deployment
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:5000' 
+    : '';
+
+// Load repository stats
+async function loadStats() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/stats`);
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            document.getElementById('total-commits').textContent = data.total_commits;
+            document.getElementById('total-files').textContent = data.total_files;
+            document.getElementById('python-files').textContent = data.python_files;
+            document.getElementById('notebook-files').textContent = data.notebook_files;
+        }
+    } catch (error) {
+        console.error('Error loading stats:', error);
+    }
+}
+
+// Load recent commits
+async function loadCommits() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/commits`);
+        const data = await response.json();
+        
+        const commitsList = document.getElementById('commits-list');
+        
+        if (data.status === 'success' && data.commits.length > 0) {
+            commitsList.innerHTML = data.commits.map(commit => `
+                <div class="commit-item">
+                    <span class="commit-hash">${commit.hash}</span>
+                    <div class="commit-message">${escapeHtml(commit.message)}</div>
+                    <div class="commit-meta">
+                        👤 ${escapeHtml(commit.author)} • 📅 ${escapeHtml(commit.date)}
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            commitsList.innerHTML = '<p style="text-align: center; color: #666;">Aucun commit trouvé</p>';
+        }
+    } catch (error) {
+        console.error('Error loading commits:', error);
+        document.getElementById('commits-list').innerHTML = 
+            '<p style="text-align: center; color: #f44336;">Erreur lors du chargement des commits</p>';
+    }
+}
+
+// Execute Python code
+async function executeCode() {
+    const code = document.getElementById('codeInput').value;
+    const output = document.getElementById('output');
+    const executeBtn = document.getElementById('executeBtn');
+    const status = document.getElementById('status');
+    
+    if (!code.trim()) {
+        output.innerHTML = '<span class="error">Veuillez entrer du code Python</span>';
+        return;
+    }
+    
+    // Disable button and show loading
+    executeBtn.disabled = true;
+    executeBtn.innerHTML = '⏳ Exécution...';
+    output.innerHTML = 'Exécution du code...';
+    status.innerHTML = '';
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/execute`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code: code })
+        });
+        
+        const data = await response.json();
+        
+        if (response.status === 429) {
+            status.innerHTML = '<div class="status-message status-error">Limite de taux atteinte. Veuillez réessayer plus tard.</div>';
+            output.innerHTML = '<span class="error">Trop de requêtes. Attendez un moment avant de réessayer.</span>';
+        } else if (data.status === 'success') {
+            output.innerHTML = escapeHtml(data.output || '(Aucune sortie)');
+            if (data.error) {
+                output.innerHTML += '\n\n<span class="error">Erreurs/Avertissements:\n' + escapeHtml(data.error) + '</span>';
+            }
+            status.innerHTML = '<div class="status-message status-success">✓ Code exécuté avec succès</div>';
+        } else {
+            output.innerHTML = '<span class="error">' + escapeHtml(data.error || 'Erreur inconnue') + '</span>';
+            status.innerHTML = '<div class="status-message status-error">✗ Erreur lors de l\'exécution</div>';
+        }
+    } catch (error) {
+        output.innerHTML = '<span class="error">Erreur de connexion: ' + escapeHtml(error.message) + '</span>';
+        status.innerHTML = '<div class="status-message status-error">✗ Erreur de connexion au serveur</div>';
+    } finally {
+        executeBtn.disabled = false;
+        executeBtn.innerHTML = '▶️ Exécuter le Code';
+        
+        // Clear status after 5 seconds
+        setTimeout(() => {
+            status.innerHTML = '';
+        }, 5000);
+    }
+}
+
+// Clear code
+function clearCode() {
+    document.getElementById('codeInput').value = '';
+    document.getElementById('output').textContent = 'Cliquez sur "Exécuter" pour voir la sortie...';
+    document.getElementById('status').innerHTML = '';
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Allow Ctrl+Enter to execute code
+document.getElementById('codeInput').addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        executeCode();
+    }
+});
+
+// Load data when page loads
+window.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+    loadCommits();
+    
+    // Refresh commits every 30 seconds
+    setInterval(() => {
+        loadCommits();
+        loadStats();
+    }, 30000);
+});
+</script>
 </body>
 </html>
