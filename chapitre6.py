@@ -85,3 +85,87 @@ def fusion(t1,t2):
 
 def cherche_somme_lin(t,s):
     return cherche_somme_croissant(tri_fusion(t), s)
+
+
+
+
+# Exercice 7
+
+tibo = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+]
+
+mat = [
+    [1,2,3],
+    [7,8,9],
+    [4,5,6]
+]
+
+def produit(a, b):
+    len_matrix = len(a)
+    m_out = [[0 for _ in range(len_matrix)] for _ in range(len_matrix)]
+
+    for i in range(len_matrix):
+        for j in range(len_matrix):
+            cpt = 0
+            for k in range(len_matrix):
+                cpt += a[i][k] * b[k][j]
+            m_out[i][j] = cpt
+    return m_out
+
+
+def puissance(m,n):
+    if n==0:
+        return m
+    else:
+        p = n // 2
+        print(m)
+        y = puissance(m,p)
+        if n % 2 == 0:
+            return produit(y,y)
+        else:
+            return produit(m, produit(y,y))
+
+
+# Fibo complexité Thêta(log(n))
+
+def fibo(n):
+    m_fibo = [[1,1], [1,0]]
+    m_fibo_n = puissance(m_fibo, n)
+    return m_fibo_n[0][0] + m_fibo_n[1][0]
+
+# Exercice 16
+
+def suite(n):
+    if n == 0:
+     return 1.0
+    else:
+        s = 0.0
+        for k in range(1, n + 1):
+            s = s + suite(n - k) / k
+        return s
+
+suite(4)
+
+
+def memo(n):
+    memo = [0 for _ in range(n+1)]
+    memo[0] = 1
+
+    for k in range(1,n):
+        cpt=0
+        for i in range(k):
+            cpt = memo[i]/(k-i) + cpt
+        memo[k] = cpt
+
+
+    return memo[n-1]
+
+
+
+
+
+
+
