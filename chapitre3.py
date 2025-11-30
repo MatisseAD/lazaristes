@@ -64,18 +64,12 @@ def sablier(n):
         sablier(n-1)
         print(n*"*")
 
-def ajoute(x,t):
-    for p in lst:
-        p.append(x)
 
-def subset(lst):
-    if len(lst) == 0:
+def subset(n):
+    if not n:
         return [[]]
-    else:
-        lst1=subset(lst[1:])
-        lst2=subset(lst[1:])
-        ajoute(lst[0],lst1)
-        return lst1+lst2
+
+
 
 
 
