@@ -154,14 +154,14 @@ def memo(n):
     memo = [0 for _ in range(n+1)]
     memo[0] = 1
 
-    for k in range(1,n):
+    for k in range(1,n+1):
         cpt=0
         for i in range(k):
             cpt = memo[i]/(k-i) + cpt
         memo[k] = cpt
 
 
-    return memo[n-1]
+    return memo[n]
 
 
 
