@@ -115,13 +115,14 @@ def produit(a, b):
             m_out[i][j] = cpt
     return m_out
 
+# Complexité Theta(log(n) * n3)
 
 def puissance(m,n):
     if n==0:
-        return m
+        ans = [[0 for _ in range(len(m))] for _ in range(len(m))]
+        return 
     else:
         p = n // 2
-        print(m)
         y = puissance(m,p)
         if n % 2 == 0:
             return produit(y,y)
