@@ -1,3 +1,5 @@
+import time
+
 # Exercice 2
 
 def delta(t,k):
@@ -120,7 +122,7 @@ def produit(a, b):
 def puissance(m,n):
     if n==0:
         ans = [[0 for _ in range(len(m))] for _ in range(len(m))]
-        return 
+        return
     else:
         p = n // 2
         y = puissance(m,p)
@@ -163,6 +165,74 @@ def memo(n):
 
 
     return memo[n]
+
+
+# Exercice 7 tri par insertion dichotomique
+# Soit n, la taille de la liste t
+
+def indice(t,k):
+    val = t[k]
+    a, b = 0, k
+    while a < b:
+        m = (a + b) // 2
+        if t[m] < val:
+            a = m + 1
+        else:
+            b = m
+    return a
+
+# Complexité de comparaison : O(log(k))
+# Complexité d'affectation : O(log(k))
+
+def swap(t,i,j):
+    t[i],t[j]=t[j],t[i]
+
+# Complexité d'affectation : O(1)
+
+def insertion(t,k):
+    i=indice(t,k)
+
+    for l in range(i, len(t)):
+        swap(t,l,len(t)-1)
+
+# On fait environ k appel à swap donc k affection : O(k)
+# Complexité d'affectation : O(log(k) + k) = O(k)
+
+
+def tri_insertion(t):
+    for i in range(1,len(t)):
+        insertion(t,i)
+
+# On fait n appel à insertion
+# (COMPLEXITE D'AFFECTATION) Donc,  TRI_INSERTION : C(n) = O(n²)
+
+# Complexité du nombre de comparaison : O(n*log(n)) (PAS CONFONDRE AVEC COMPLEXITE TEMPORELLE)
+# (seul la fonction indice() effectue une comparaison)
+
+
+def grenouille(m,t):
+    bool_caillou = [False for _ in range(m)]
+    perfect = [True for _ in range(m)]
+
+    for i in range(len(t)):
+        bool_caillou[t[i]] = True
+        if bool_caillou == perfect:
+            return i
+
+# Complexité temporelle : O(2n) = O(n)
+# Complexité spatiale : O(2m) = O(m)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
