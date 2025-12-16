@@ -222,6 +222,37 @@ def grenouille(m,t):
 # Complexité temporelle : O(2n) = O(n)
 # Complexité spatiale : O(2m) = O(m)
 
+# Correction grenouille
+
+def appartient(t,k):
+    for x in t:
+        if x==k:
+            return True
+    return False
+
+def grenouille_correction(m,t):
+    lp=[]
+    i=0
+    cpt=0
+    n=len(t)
+    while cpt != m and i < n:
+        if not appartient(lp, t[i]):
+            cpt += 1
+            lp.append(t[i])
+        i += 1
+    return i-1
+
+def grenouille_corr_2(m,t):
+    cpt = 0
+    r = [False for _ in range(m)]
+    for i in range(len(t)):
+        if not r[t[i]]:
+            r[t[i]] = True
+            cpt += 1
+        if cpt == m:
+            return i
+            
+# Complexité en O(n) temporel et algo spatial en theta m
 
 
 
