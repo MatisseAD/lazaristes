@@ -1,0 +1,336 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1.8cm}
+\setlength{\parindent}{0pt}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+
+% --- couleurs globales fiche ---
+\definecolor{FicheBlue}{RGB}{33, 102, 172}
+\definecolor{FicheGreen}{RGB}{44, 162, 95}
+\definecolor{FicheOrange}{RGB}{253, 174, 97}
+\definecolor{FicheGrey}{RGB}{240, 240, 240}
+
+% --- styles d'encadrés ---
+\tcbset{
+  colback=FicheGrey,
+  colframe=FicheBlue,
+  coltitle=black,
+  boxrule=0.8pt,
+  arc=3mm,
+  left=4pt,right=4pt,top=3pt,bottom=3pt,
+  fonttitle=\bfseries,
+}
+
+\newtcolorbox{defbox}[1][]{title={\textbf{Définition}},colback=blue!3,#1}
+\newtcolorbox{propbox}[1][]{title={\textbf{Propriétés}},colback=FicheGrey,#1}
+\newtcolorbox{exbox}[1][]{title={\textbf{Exemples}},colback=green!5!white,colframe=FicheGreen,#1}
+\newtcolorbox{methbox}[1][]{title={\textbf{Mémo méthode}},colback=FicheOrange!12!white,colframe=FicheOrange,#1}
+\newtcolorbox{titlebox}[1][]{enhanced,sharp corners,boxrule=0pt,colback=FicheBlue!15!white,#1}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\Id}{\mathrm{Id}}
+
+\begin{document}
+
+\begin{titlebox}
+\centering
+{\Large \textbf{Fiche -- Espaces vectoriels}}\\[0.3em]
+{Fait avec amour et passion par votre homme Matisse}
+\end{titlebox}
+
+\vspace{0.4cm}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{1. Espace vectoriel}}
+
+\begin{defbox}
+\textbf{Donnée :} un corps $\K$.
+
+Un \textbf{$\K$-espace vectoriel} est un triplet $(E,+,\cdot)$ où :
+\begin{itemize}
+  \item $(E,+)$ est muni de l'associativité, commutativité, élément neutre $0$, opposé $-x$.
+  \item $\cdot : \K \times E \to E$ vérifie, pour tout $x,y\in E$ et $\lambda,\mu\in\K$ :
+  \[
+  \lambda(x+y)=\lambda x+\lambda y,\quad
+  (\lambda+\mu)x = \lambda x + \mu x,\quad
+  \lambda(\mu x)=(\lambda\mu)x,\quad
+  1x = x.
+  \]
+\end{itemize}
+\end{defbox}
+
+\begin{propbox}
+Pour tout $x\in E$, $\lambda\in\K$ :
+\[
+0x = 0,\quad \lambda 0 = 0,\quad (-\lambda)x = \lambda(-x) = -(\lambda x),\quad
+\lambda x = 0 \Rightarrow (\lambda = 0 \ \text{ou}\ x = 0).
+\]
+\end{propbox}
+
+\begin{exbox}
+Exemples d'espaces vectoriels :
+\[
+\K^n,\quad \R^{\mathbb{N}}\ (\text{suites}),\quad F(X,\K),\quad
+\text{espaces de polynômes},\quad \text{espaces de matrices}.
+\]
+\end{exbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{2. Sous-espaces vectoriels et sous-espace engendré}}
+
+\begin{defbox}
+$F\subset E$ est un \textbf{sous-espace vectoriel} (sev) de $E$ si
+\[
+0\in F \quad\text{et}\quad
+\forall x,y\in F,\ \forall\lambda,\mu\in\K,\ \lambda x+\mu y\in F.
+\]
+\end{defbox}
+
+\begin{methbox}
+\textbf{Pour montrer que $F$ est un sev de $E$ :}
+\[
+0\in F,\quad
+x,y\in F\Rightarrow x+y\in F,\quad
+x\in F,\lambda\in\K\Rightarrow \lambda x\in F.
+\]
+\end{methbox}
+
+\begin{propbox}
+\begin{itemize}
+  \item Intersection d'une famille de sev $\Rightarrow$ sev.
+  \item En général, $F\cup G$ n'est \textbf{pas} un sev.
+\end{itemize}
+\end{propbox}
+
+\begin{defbox}
+Pour $A\subset E$, le \textbf{sous-espace engendré} par $A$, noté $\mathrm{Vect}(A)$, est le plus petit sev contenant $A$.
+
+Si $A=\{x_1,\dots,x_n\}$ :
+\[
+\mathrm{Vect}(x_1,\dots,x_n)
+= \{\lambda_1x_1+\cdots+\lambda_n x_n : \lambda_i\in\K\}
+= \mathrm{Vect}(A).
+\]
+\end{defbox}
+
+\begin{exbox}
+\textbf{Droite vectorielle.} Pour $x\in E$,
+\[
+\mathrm{Vect}(x)=\K x=\{\lambda x:\lambda\in\K\}.
+\]
+Si $E=\K x$ pour un $x\neq 0$, alors $E$ est une \textbf{droite vectorielle}.
+\end{exbox}
+
+\begin{propbox}
+\textbf{Colinéarité.} 
+
+$x,y\in E$ sont \textbf{colinéaires} si $\exists\lambda\in\K$ tel que $y=\lambda x$ (ou $x=\lambda y$).
+\end{propbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{3. Applications linéaires, noyau, image}}
+
+Soient $E,F$ deux $\K$-espaces vectoriels.
+
+\begin{defbox}
+$f:E\to F$ est \textbf{linéaire} si
+\[
+\forall x,y\in E,\ \forall\lambda,\mu\in\K,\quad
+f(\lambda x+\mu y)=\lambda f(x)+\mu f(y).
+\]
+On note $L(E,F)$ l'ensemble des applications linéaires de $E$ dans $F$, et $L(E)=L(E,E)$.
+\end{defbox}
+
+\begin{methbox}
+    Pour montrer qu'une application f est linéaire, il faut montrer que :
+    \[
+    \forall x,y\in E, \ \forall\lambda,\mu\in\K \ f(\lambda x \ +  \mu y) = \lambda f(x)  \ + \ \mu f(y)
+    \]
+\end{methbox}
+
+\begin{exbox}
+Cas particuliers :
+\begin{itemize}
+  \item $E=F$ : $f$ est un \textbf{endomorphisme}.
+  \item $f$ bijective : \textbf{isomorphisme}.
+  \item Endomorphisme + bijectif : \textbf{automorphisme}.
+\end{itemize}
+\end{exbox}
+
+\begin{propbox}
+\textbf{Noyau et image.}
+\[
+\ker f = \{x\in E : f(x)=0\},\qquad
+\mathrm{Im}\,f = \{f(x): x\in E\}.
+\]
+Ce sont des sous-espaces vectoriels.
+
+\medskip
+\textbf{Lien avec injectivité/surjectivité :}
+\[
+f\ \text{injective} \Longleftrightarrow \ker f = \{0\},
+\qquad
+f\ \text{surjective} \Longleftrightarrow \mathrm{Im}\,f = F.
+\]
+\end{propbox}
+
+\begin{propbox}
+\[
+\forall f,g \in GL(E), \ f \circ g \in GL(E)
+\]
+\end{propbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{4. L(E) et groupe linéaire GL(E)}}
+
+\begin{defbox}
+\textbf{Espace vectoriel $L(E,F)$.} Avec les opérations
+\[
+(f+g)(x)=f(x)+g(x),\qquad
+(\lambda f)(x)=\lambda f(x),
+\]
+$L(E,F)$ est un $\K$-espace vectoriel.
+\end{defbox}
+
+\begin{defbox}
+\textbf{Groupe linéaire.} On note
+\[
+GL(E)=\{u\in L(E)\ :\ u \text{ est bijective}\}.
+\]
+Avec la composition :
+\begin{itemize}
+  \item $\Id_E\in GL(E)$ ;
+  \item $u,v\in GL(E)\Rightarrow v\circ u\in GL(E)$ ;
+  \item $u\in GL(E)\Rightarrow u^{-1}\in GL(E)$.
+\end{itemize}
+\end{defbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{5. Somme, somme directe, supplémentaires}}
+
+\begin{defbox}
+Soit $E$ un $\K$-espace vectoriel, $A,B$ deux sous-espaces vectoriels.
+
+\textbf{Somme.}
+\[
+A+B=\{a+b : a\in A,\ b\in B\},
+\]
+c'est le plus petit sev contenant $A$ et $B$.
+\end{defbox}
+
+\begin{defbox}
+\textbf{Somme directe.} On dit que $A$ et $B$ sont en \textbf{somme directe} si
+\[
+\forall a\in A,\forall b\in B,\ a+b=0 \Rightarrow a=b=0.
+\]
+On note alors $A\oplus B$ au lieu de $A+B$.
+\end{defbox}
+
+\begin{methbox}
+\textbf{Somme direct :}
+\[
+A\oplus B \Longleftrightarrow A\cap B=\{0\}.
+\]
+\end{methbox}
+
+\begin{defbox}
+\textbf{Sous-espaces supplémentaires.} $A$ et $B$ sont \textbf{supplémentaires} dans $E$ si
+\[
+E=A\oplus B.
+\]
+Autrement dit, tout $x\in E$ s’écrit d’une \emph{unique} façon $x=a+b$ avec $a\in A$, $b\in B$. 
+Pour montrer une telle égalité, l'analyse synthèse est une méthode pertinente
+\end{defbox}
+
+\begin{methbox}
+\textbf{Version géométrique du théorème du rang.}\\[0.2em]
+Soit $f\in L(E,F)$ et $A$ un supplémentaire de $\ker f$ dans $E$ : $E=\ker f\oplus A$.
+Alors l’application
+\[
+\varphi:A\to \mathrm{Im}\,f,\quad x\mapsto f(x)
+\]
+est un isomorphisme.
+\end{methbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{6. Projecteurs}}
+
+\begin{defbox}
+Un \textbf{projecteur} de A parallèlement à B est un endomorphisme $p\in L(E)$ tel que
+\[
+p^2 = p.
+\
+\forall (a,b) \in (A,B), \ p(a+b) = a
+\]
+\end{defbox}
+
+\begin{propbox}
+\textbf{Lien avec les supplémentaires.}\\[0.2em]
+Soit $A,B$ deux sev tels que $E=A\oplus B$. Alors il existe un \textbf{unique} projecteur $p$ tel que
+\[
+\mathrm{Im}\,p = A,\quad \ker p = B,
+\]
+et pour tout $x=a+b$ (avec $a\in A$, $b\in B$),
+\[
+p(x)=a.
+\]
+
+Réciproquement, si $p$ est un projecteur, alors
+\[
+E=\ker p \oplus \mathrm{Im}\,p.
+\]
+\end{propbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{7. Symétries}}
+
+\begin{defbox}
+Soit $A,B$ deux sev supplémentaires de $E$ : $E=A\oplus B$.
+La \textbf{symétrie par rapport à $A$ parallèlement à $B$} est l’endomorphisme $s\in L(E)$ défini par
+\[
+\forall a\in A,\forall b\in B,\quad s(a+b)=a-b.
+\]
+\end{defbox}
+
+\begin{propbox}
+\begin{itemize}
+  \item $s\circ s = \Id_E$ donc $s$ est un automorphisme et $s^{-1}=s$.
+  \item $\ker(s-\Id) = A$, $\ker(s+\Id) = B$.
+  \item Une application $s\in L(E)$ est une symétrie $\Longleftrightarrow s^2=\Id_E$.
+\end{itemize}
+\end{propbox}
+
+%------------------------------------------------
+\section*{\textcolor{FicheBlue}{8. Hyperplans}}
+
+\begin{defbox}
+Un \textbf{hyperplan} de $E$ est le noyau d'une forme linéaire non nulle
+\[
+H = \ker \varphi, \quad \varphi\in E^\star=L(E,\K),\ \varphi\neq 0.
+\]
+\end{defbox}
+
+\begin{propbox}
+\begin{itemize}
+  \item Un hyperplan est un sev strict de $E$.
+  \item $H$ est un hyperplan $\Longleftrightarrow$ $H$ admet une \textbf{droite vectorielle} comme supplémentaire :
+  \[
+  \exists x_0\notin H\quad E = H \oplus \K x_0.
+  \]
+  \item Si $E=\K^n$, les hyperplans sont les ensembles
+  \[
+  H = \{(x_1,\dots,x_n)\in\K^n : a_1x_1+\cdots+a_n x_n = 0\},
+  \]
+  avec $(a_1,\dots,a_n)\neq 0$ (droites par l’origine dans $\R^2$, plans par l’origine dans $\R^3$, etc.).
+\end{itemize}
+\end{propbox}
+
+\end{document}
